@@ -406,15 +406,16 @@ h4 *,
    ==================================================================== */
 
 .prose a {
-  color: hsl(var(--primary));
+  color: var(--heading-maroon) !important;
   text-decoration: underline;
-  text-decoration-color: hsl(var(--primary) / 0.3);
+  text-decoration-color: var(--heading-maroon);
+  opacity: 0.85;
   text-underline-offset: 2px;
   transition: all 0.2s ease;
 }
 
 .prose a:hover {
-  text-decoration-color: hsl(var(--primary));
+  opacity: 1;
   text-decoration-thickness: 2px;
 }
 

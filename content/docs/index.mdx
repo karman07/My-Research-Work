@@ -5,8 +5,7 @@ description: ....
 
 # Web-Based 3D Asset Generation System
 
-**Authors:** Dr. Parteek Bhatia, Karman Singh, Lakshay Chetal
-**Date:** February 2026
+**Authors:** Dr. Parteek Bhatia, Karman Singh
 
 ---
 
@@ -34,32 +33,10 @@ In educational contexts, particularly in biology and anatomy, the ability to man
 Despite this universal and growing need across disciplines, the pipeline for creating these assets—photogrammetry—has historically been a significant bottleneck. Efficiently converting a set of photographs into a photorealistic 3D mesh requires a convergence of high-end hardware, specialized software knowledge, and extensive manual post-processing. A biology teacher wanting to scan a skeletal model for their classroom often lacks both the computational workstation and the technical expertise to perform mesh optimization, texture baking, and format conversion. Similarly, a small museum curator may wish to digitize a collection of artifacts but cannot afford the specialized equipment and trained personnel required for traditional 3D scanning approaches.
 
 ### 1.2 Research Objectives
-
-This research introduces an integrated, web-based platform designed to collapse the complex photogrammetry workflow into a single, automated interaction accessible to non-technical users. The primary objectives of this work are:
-
-1. **Accessibility**: To eliminate hardware barriers by centralizing computational resources on a server equipped with hardware acceleration, allowing users on any device to generate professional-grade 3D models.
-
-2. **Automation**: To automate the entire pipeline from image ingestion through reconstruction, optimization, and multi-format export, removing the need for manual intervention or specialized knowledge.
-
-3. **Scalability**: To implement a queue-based architecture capable of handling multiple concurrent requests efficiently, maximizing hardware utilization without user-facing performance degradation.
-
-4. **Quality**: To produce multiple optimized variants of each model suitable for different use cases (web delivery, mobile AR, high-fidelity visualization) while maintaining visual fidelity.
-
-5. **Cross-Platform Compatibility**: To support multiple output formats (USDZ, GLB, OBJ) ensuring compatibility across iOS, Android, web browsers, and professional 3D software.
+This research introduces an integrated, web-based platform designed to collapse the complex photogrammetry workflow into a single, automated interaction. The primary objectives include ensuring accessibility by centralizing computational resources to eliminate hardware barriers, and achieving full automation of the pipeline from image ingestion to multi-format export. The system is also designed for scalability through a queue-based architecture that manages concurrent requests efficiently, while maintaining high output quality across multiple optimized variants. Furthermore, ensuring cross-platform compatibility ensures that the resulting 3D assets are usable across various hardware ecosystems and professional software suites.
 
 ### 1.3 Contributions
-
-This work makes several significant contributions to the field of accessible 3D reconstruction:
-
-- **Architectural Innovation**: A novel producer-consumer architecture that decouples user interaction from computationally intensive processing, enabling responsive web interfaces while performing complex 3D reconstruction tasks.
-
-- **Automated Optimization Pipeline**: An intelligent optimization system that generates multiple quality variants from a single high-fidelity base model, automatically balancing file size constraints with visual fidelity.
-
-- **Hybrid Processing Approach**: Integration of Apple's RealityKit photogrammetry with Blender-based post-processing for cross-platform format support and advanced mesh optimization.
-
-- **Real-Time Feedback System**: WebSocket-based progress tracking providing users with transparent, real-time updates throughout the reconstruction process.
-
-- **Empirical Evaluation**: Comprehensive performance metrics demonstrating the system's accuracy, efficiency, and scalability across diverse object categories.
+This work makes several significant contributions to the field of accessible 3D reconstruction, starting with a novel producer-consumer architecture that decouples user interaction from intensive processing tasks. We introduce an automated optimization pipeline that generates multiple quality variants from a single high-fidelity base model, balancing file size with visual integrity. The system utilizes a hybrid processing approach that integrates specialized photogrammetry with advanced post-processing for cross-platform support. Additionally, it features a real-time feedback system for transparent progress tracking and is backed by an empirical evaluation demonstrating effectiveness across diverse object categories.
 
 ### 1.4 Paper Organization
 
@@ -80,19 +57,11 @@ Photogrammetry, the science of making measurements from photographs, has evolved
 
 Modern digital photogrammetry leverages computer vision techniques to reconstruct three-dimensional structures from two-dimensional images. The fundamental approach relies on Structure-from-Motion (SfM) algorithms that identify corresponding features across multiple images, estimate camera positions, and triangulate 3D point positions.
 
-**Traditional Photogrammetry Software**: Commercial solutions such as Agisoft Metashape, RealityCapture, and Pix4D have established themselves as industry standards for professional photogrammetry. These applications offer high-quality reconstruction capabilities but impose steep hardware requirements, typically demanding high-end workstations with dedicated discrete GPUs (8GB+ VRAM), substantial RAM (32GB+), and significant storage capacity. The software itself often requires substantial licensing fees and extensive training to use effectively. While these tools produce excellent results, they remain inaccessible to the vast majority of potential users in education, small museums, and individual content creation.
-
-**Open-Source Alternatives**: Projects like COLMAP, OpenMVG, and Meshroom have made photogrammetry more accessible by providing free, open-source implementations. However, these tools still require users to install complex software dependencies, understand command-line interfaces, and possess sufficient computational resources. The learning curve remains steep, and the lack of automated optimization means users must manually process outputs for specific use cases.
-
-**Hardware-Based Solutions**: Dedicated 3D scanners using structured light or LiDAR technology offer high precision but at significant cost (typically $1,000-$50,000+). These devices are impractical for many educational and cultural heritage applications due to budget constraints and portability limitations.
+Traditional photogrammetry has historically been dominated by commercial solutions such as Agisoft Metashape, RealityCapture, and Pix4D, which serve as industry standards. These applications provide high-quality reconstruction but necessitate high-end workstations with dedicated GPUs and substantial memory, often remaining inaccessible due to high licensing fees and steep learning curves. While open-source alternatives like COLMAP, OpenMVG, and Meshroom have increased accessibility, they often require complex dependency management and lack the automated optimization workflows found in professional suites. Furthermore, dedicated hardware-based solutions using structured light or LiDAR offer extreme precision but at a prohibitive cost that precludes their use in many educational and small-scale cultural heritage contexts.
 
 ### 2.2 Apple RealityKit and Photogrammetry API
 
-Apple introduced the Object Capture API as part of RealityKit in macOS 12 (Monterey), providing hardware-accelerated photogrammetry capabilities optimized for Apple Silicon. This framework leverages the Neural Engine and GPU to perform efficient 3D reconstruction with several advantages:
-
-- **Hardware Optimization**: Deep integration with Apple's Metal framework and Neural Engine provides significant performance improvements over CPU-based approaches.
-- **Quality**: Produces high-quality meshes with photorealistic textures suitable for AR applications.
-- **Native Format Support**: Direct output to USDZ (Universal Scene Description), Apple's preferred format for AR experiences.
+Apple's Object Capture API within RealityKit provides several critical advantages for 3D reconstruction. It offers deep hardware optimization by integrating with the Metal framework and Neural Engine, leading to significant performance gains over traditional CPU-based methods. The framework produces high-quality, photorealistic meshes ideal for spatial applications and natively supports the USDZ format, ensuring immediate compatibility with the iOS and macOS ecosystems.
 
 However, RealityKit's photogrammetry capabilities are only accessible through Swift code running on macOS, creating a barrier for web-based applications and cross-platform deployment. Our work addresses this limitation by wrapping the RealityKit API in a web-accessible service layer.
 
@@ -120,12 +89,7 @@ Generating web-ready 3D assets requires sophisticated mesh optimization techniqu
 
 While substantial research exists in photogrammetry algorithms, 3D reconstruction techniques, and web service architectures, a significant gap remains: **there is no comprehensive, open, web-based system that combines automated photogrammetry, intelligent optimization, and multi-format export in an accessible interface suitable for non-technical users.**
 
-Our work fills this gap by:
-- Providing a zero-installation web interface accessible from any device
-- Automating the entire pipeline from image upload to optimized model delivery
-- Generating multiple quality variants suitable for different deployment scenarios
-- Supporting multiple output formats for cross-platform compatibility
-- Implementing a scalable queue-based architecture for institutional use
+Our work fills this gap by providing a zero-installation web interface accessible from any device, automating the entire pipeline from image upload to optimized model delivery. The system generates multiple quality variants suitable for diverse deployment scenarios and supports various output formats for cross-platform compatibility, all while maintaining a scalable queue-based architecture suitable for institutional use.
 
 ---
 
@@ -148,35 +112,16 @@ The proposed solution implements a decoupled **producer-consumer** architecture 
 The system comprises four distinct layers, each with well-defined responsibilities:
 
 #### 3.1.1 Presentation Layer (Client)
-A lightweight, responsive web interface accessible via standard browsers on any device (desktop, tablet, mobile). This layer is built using modern HTML5, CSS3, and JavaScript, providing:
-- Drag-and-drop file upload with visual feedback
-- Real-time progress tracking via WebSocket connections
-- Responsive design adapting to various screen sizes
-- Intuitive status visualization and download management
+The presentation layer consists of a lightweight, responsive web interface built with modern web technologies. It facilitates user interaction through a drag-and-drop file upload system with immediate visual feedback, real-time progress tracking via persistent WebSocket connections, and a design that adapts seamlessly to diverse hardware ranging from desktop workstations to mobile devices. This layer ensures that the complexities of the underlying reconstruction are abstracted behind an intuitive status visualization and automated download management system.
 
 #### 3.1.2 Orchestration Layer (Server)
-A Python-based Flask backend that manages API endpoints, session state, and job queuing. Key responsibilities include:
-- RESTful API endpoints for upload, status checking, and file download
-- WebSocket server for real-time bidirectional communication
-- Job queue management using thread-safe data structures
-- File system management for uploads, processing, and outputs
-- Resource monitoring and system health checks
+A robust server implementation manages the system's core orchestration logic, handling API endpoints, session states, and job queuing. It provides RESTful endpoints for asset submission and retrieval while maintaining a WebSocket server for bidirectional communication. The orchestration layer is responsible for translating user requests into internal processing jobs, managing file system integrity for raw and processed assets, and monitoring overall system health and resource allocation through thread-safe monitoring structures.
 
 #### 3.1.3 Processing Layer (Worker)
-A background worker thread that consumes jobs from the queue and orchestrates the reconstruction pipeline. This layer:
-- Monitors the job queue continuously
-- Invokes the Swift photogrammetry engine
-- Captures and parses processing output
-- Updates job status in real-time
-- Manages temporary file cleanup
+The processing layer operates as a background worker that bridge the orchestration and execution layers. It continuously monitors the job queue for new tasks and manages the lifecycle of each reconstruction attempt. This includes invoking the primary reconstruction engine, capturing and parsing its real-time output for progress reporting, and ensuring the clean transition of assets between processing stages while managing temporary storage to optimize disk utilization.
 
 #### 3.1.4 Execution Layer (Reconstruction Engine)
-The Swift-based photogrammetry engine that interfaces directly with Apple's RealityKit framework. This layer performs:
-- Image validation and quality assessment
-- Intelligent image selection and preprocessing
-- Hardware-accelerated 3D reconstruction
-- Automated mesh and texture optimization
-- Multi-variant generation with size constraints
+The execution layer serves as the computational core of the system, interfacing directly with hardware-accelerated frameworks. It performs comprehensive image validation and metadata-driven quality assessment to filter suboptimal inputs. The engine then executes the high-fidelity reconstruction sequence, performing automated mesh optimization and texture synthesis to generate multiple model variants tailored to specific file size and performance requirements.
 
 ### 3.2 Data Flow and Processing Pipeline
 
@@ -189,15 +134,7 @@ The complete data flow through the system follows these stages:
 ![Data Ingestion Pipeline](/docs_images/7.png)
 *Workflow of Stage 1: Browser upload, file validation, and job enqueueing.*
 
-Users interact with the system through an intuitive drag-and-drop interface. Upon submission, the client validates image formats (JPEG, HEIC, PNG, TIFF) and initiates a multipart/form-data stream to the server. To ensure responsiveness, the server does not process images immediately. Instead, it:
-
-1.  **Assigns a Unique Identifier**: Generates a UUID (Universally Unique Identifier) for the job
-2.  **Saves Raw Assets**: Stores uploaded files in `uploads/{JOB_ID}/` directory
-3.  **Creates Job Object**: Initializes a job status object with metadata
-4.  **Enqueues Job**: Pushes the job into a thread-safe FIFO (First-In-First-Out) queue
-5.  **Immediate Response**: Returns the Job ID to the client, releasing the HTTP connection
-
-This approach ensures that the web server remains responsive even under heavy load, as upload handling is decoupled from processing.
+Users interact with the system through an intuitive drag-and-drop interface. Upon submission, the client validates image formats and initiates a data stream to the server. To maintain high responsiveness, the server decoupled the upload handling from the processing by assigning a unique job identifier, storing the assets in a persistent directory, and initializing a job metadata object. This job is then placed into a thread-safe FIFO queue, allowing the server to immediately release the client connection while the reconstruction proceeds in the background.
 
 #### Stage 2: Asynchronous Reconstruction (The Consumer)
 
@@ -209,21 +146,7 @@ A dedicated background worker thread continuously monitors the job queue. When a
 *Stage 2.1: Automated format validation, EXIF extraction, and quality filtering.*
 
 **2.1 Image Preprocessing and Selection**
-```python
-Input: Raw images in uploads/{JOB_ID}/
-Process:
-  - Validate image formats and integrity
-  - Extract EXIF metadata (resolution, orientation)
-  - Filter images by quality criteria:
-    * Minimum resolution: 1000px on longest side
-    * File size: 50KB - 5MB
-    * Valid image data (not corrupted)
-  - Intelligent selection algorithm:
-    * Target: 45 images for photo sets, 80-150 for video frames
-    * Distribute selection evenly across input set
-    * Prioritize higher resolution images
-Output: Processed image set in temporary directory
-```
+The initial processing stage prepares the raw image set for reconstruction by validating file integrity and extracting metadata. The system parses EXIF data to determine resolution and orientation, filtering out images that fall below quality thresholds such as insufficient resolution or corrupted data. An intelligent selection algorithm is applied to optimize the input set, targeting a specific count of images—typically 45 for photo sets and up to 150 for video frames—to ensure a balanced distribution of viewpoints while prioritizing high-clarity assets. This processed set is then staged in a temporary workspace for a matching phase.
 
 **Figure 7: Feature Extraction & Matching (Stage 2.2)**
 
@@ -231,17 +154,7 @@ Output: Processed image set in temporary directory
 *Stage 2.2: SIFT/ORB detection, pair matching, and camera pose estimation.*
 
 **2.2 Feature Extraction and Matching**
-```swift
-Input: Processed images
-Process (RealityKit PhotogrammetrySession):
-  - SIFT/ORB feature detection on each image
-  - Feature matching across image pairs
-  - Geometric verification (RANSAC)
-  - Camera pose estimation
-  - Sparse point cloud generation
-Output: Camera positions + sparse 3D points
-Progress: 0-30%
-```
+In this phase, the system identifies distinct visual landmarks within each image using robust feature detection algorithms. These features are matched across image pairs to establish spatial relationships. Geometric verification techniques are employed to filter out erroneous matches, allowing the system to accurately estimate camera poses and orientations. The result of this stage is a sparse point cloud and a set of precise camera positions, representing the initial geometric foundation of the object. This stage typically accounts for the first 30% of the total processing timeline.
 
 **Figure 8: Dense Reconstruction (Stage 2.3)**
 
@@ -249,16 +162,7 @@ Progress: 0-30%
 *Stage 2.3: Multi-view stereo (MVS) depth estimation and dense point cloud generation.*
 
 **2.3 Dense Reconstruction**
-```swift
-Input: Sparse point cloud + camera poses
-Process:
-  - Multi-view stereo (MVS) depth estimation
-  - Dense point cloud generation (millions of points)
-  - Point cloud filtering and outlier removal
-  - Normal estimation
-Output: Dense colored point cloud
-Progress: 30-60%
-```
+Utilizing the camera poses and sparse geometry, the system performs multi-view stereo (MVS) depth estimation to generate a dense representation of the object's surface. This process creates millions of discrete 3D points, which are then filtered to remove outliers and noise. Normal estimation is performed for each point to facilitate future surface reconstruction. The output is a high-density, colored point cloud that captures the intricate details of the physical specimen, marking approximately 60% completion of the pipeline.
 
 **Figure 9: Mesh Generation & Texturing (Stage 2.4)**
 
@@ -266,17 +170,7 @@ Progress: 30-60%
 *Stage 2.4: Surface reconstruction, UV unwrapping, and PBR material synthesis.*
 
 **2.4 Mesh Generation and Texturing**
-```swift
-Input: Dense point cloud
-Process:
-  - Surface reconstruction (Poisson or Delaunay)
-  - Mesh simplification and cleaning
-  - UV unwrapping and parameterization
-  - Texture atlas generation from original images
-  - PBR material creation
-Output: High-fidelity base USDZ model (typically 50-350MB)
-Progress: 60-85%
-```
+The dense point cloud is transformed into a continuous surface through advanced reconstruction algorithms. The system generates a polygonal mesh, which is then cleaned and simplified to maintain high visual fidelity with efficient geometric structure. UV unwrapping and parameterization are performed to create a texture map, which is then synthesized from the original high-resolution images. The application of Physically Based Rendering (PBR) materials ensures realistic light interaction on the final model. The resulting high-fidelity base model serves as the source for all subsequent optimizations.
 
 **Figure 10: Automated Optimization Pipeline (Stage 2.5)**
 
@@ -284,119 +178,24 @@ Progress: 60-85%
 *Stage 2.5: Generating multiple quality variants through intelligent mesh and texture optimization.*
 
 **2.5 Automated Optimization**
-```swift
-Input: Base USDZ model
-Process for each variant (2MB, 2.5MB, 3MB, 3.5MB, 5MB, 7MB, 10MB):
-  - Extract USDZ contents (unzip)
-  - Texture optimization:
-    * Resize to target resolution (896px - 4096px)
-    * Convert PNG to JPEG with quality settings (70-95)
-    * Update USD material references
-  - Repack as optimized USDZ
-  - Verify file size and quality
-Output: 7 optimized USDZ variants
-Progress: 85-95%
-```
+The final stage focuses on generating a series of optimized model variants targeted at specific file size constraints ranging from 2MB to 10MB. The system extracts the high-fidelity base model and performs iterative texture resizing and compression—transitioning from PNG to optimized JPEG formats while adjusting resolution. By updating material references and repacking the assets, the system produces seven discrete versions tailored for various deployment scenarios, from mobile AR viewing to professional high-quality visualization. Each variant is verified for size compliance and visual integrity before being marked as ready for download.
 
-
-                              ↓
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│  FINAL OUTPUT                                       Progress: 100%  │
-│  output/{JOB_ID}/                                                   │
-│  ├── model_2MB.usdz ······· Mobile AR optimized                    │
-│  ├── model_2.5MB.usdz ····· Web viewing                            │
-│  ├── model_3MB.usdz ······· Enhanced web                           │
-│  ├── model_3.5MB.usdz ····· High quality web                       │
-│  ├── model_5MB_HQ.usdz ···· Desktop AR                             │
-│  ├── model_7MB_UHQ.usdz ··· Professional viewing                   │
-│  ├── model_10MB_MAX.usdz ·· Maximum quality                        │
-│  ├── model.glb ············ Cross-platform glTF                    │
-│  └── model.obj ············ Universal 3D format                    │
-│                                                                     │
-│   Ready for Download & Deployment                                │
-└─────────────────────────────────────────────────────────────────────┘
-```
+Upon successful completion, the system delivers a comprehensive directory of finalized assets. This includes seven discrete USDZ variants ranging from highly compressed mobile versions to high-fidelity archival models, alongside universally compatible formats such as GLB and OBJ. This diversified output ensures that the reconstructed object is immediately deployable across a variety of platforms and professional software suites, providing a complete end-to-end solution for the user.
 
 Crucially, this entire process runs on a separate thread or subprocess, ensuring that the main server remains responsive to new requests and status checks from other users.
 
 ### 3.3 Real-Time Feedback Mechanism
 
-Throughout the processing stages, the worker updates a shared state registry with progress metrics. The system employs a dual-feedback mechanism:
-
-**WebSocket-Based Push Notifications**:
-```javascript
-// Client establishes WebSocket connection
-socket = io.connect();
-socket.emit('join', {job_id: 'abc-123'});
-
-// Server pushes updates
-socket.on('status_update', function(data) {
-  updateProgressBar(data.progress);
-  updateStatusMessage(data.message);
-});
-```
-
-**HTTP Polling Fallback**:
-```javascript
-// For clients where WebSocket is blocked
-setInterval(function() {
-  fetch('/api/job/abc-123')
-    .then(response => response.json())
-    .then(data => updateUI(data));
-}, 2000);  // Poll every 2 seconds
-```
-
-This dual approach ensures reliable status updates across various network configurations, including restrictive corporate firewalls that may block WebSocket connections.
+Throughout the processing stages, the worker updates a shared state registry with progress metrics. The system employs a dual-feedback mechanism to ensure reliable communication. It primarily utilizes WebSocket-based push notifications to broadcast real-time status updates directly to the client interface, providing immediate visibility into the reconstruction's progress. For network environments where persistent socket connections are restricted, the system incorporates an automated HTTP polling fallback that periodically retrieves job metadata from the server, ensuring that the user remains informed of the session's state across diverse connectivity scenarios.
 
 ### 3.4 Resource Management and Concurrency Control
 
-The system implements several mechanisms to prevent resource exhaustion:
+The system implements several mechanisms to prevent resource exhaustion and ensure long-term stability. A queue-based serialization strategy ensures that only one computationally intensive job processes at a any given time, preventing GPU contention and memory saturation. Before accepting any new data ingestion tasks, the server performs an automated verification of available disk space to ensure sufficient headroom for reconstruction assets. Furthermore, a persistent maintenance layer executes periodic cleanup operations to purge completed job data older than reaching its retention threshold, effectively reclaiming storage and maintaining overall system health.
 
-**Queue-Based Serialization**: Only one job processes at a time, preventing memory exhaustion and GPU contention. While this limits throughput, it ensures reliable completion and predictable resource usage.
+To ensure stability, the system executes the reconstruction engine as an isolated subprocess. This architectural decision prevents memory-intensive photogrammetry operations from impacting the primary web server's responsiveness and provides a clean environment for each reconstruction job.
 
-**Disk Space Monitoring**: Before accepting uploads, the server checks available disk space:
-```python
-def check_disk_space():
-    stat = os.statvfs('/')
-    free_gb = (stat.f_bavail * stat.f_frsize) / (1024**3)
-    return free_gb > 10  # Require 10GB free
-```
-
-**Automatic Cleanup**: Completed jobs older than 7 days are automatically purged to reclaim storage:
-```python
-def cleanup_old_jobs():
-    for job_dir in os.listdir('output/'):
-        if age_in_days(job_dir) > 7:
-            shutil.rmtree(job_dir)
-```
-
-**Process Isolation**: The Swift photogrammetry script runs as a separate subprocess, preventing memory leaks in the long-running Flask server:
-```python
-process = subprocess.Popen(
-    ['swift', 'photogrammetry_script.swift', input_dir, output_dir],
-    stdout=subprocess.PIPE,
-    stderr=subprocess.STDOUT
-)
-```
-
-### 5.3 Benchmarking Context
 ### 3.5 Security Considerations
-
-While the current implementation focuses on functionality, several security measures are implemented:
-
--   **File Type Validation**: Strict whitelist of allowed extensions with MIME type verification
--   **File Size Limits**: Maximum upload size of 500MB to prevent DoS attacks
--   **Path Sanitization**: All file paths are sanitized to prevent directory traversal attacks
--   **UUID-Based Access**: Job IDs are cryptographically random UUIDs, preventing enumeration attacks
-
-For production deployment, additional measures are recommended:
--   User authentication and authorization
--   Rate limiting per IP address
--   HTTPS/TLS encryption
--   Input sanitization and validation
--   CSRF protection
--   Content Security Policy headers
+The system incorporates several layers of security to protect both user data and server infrastructure. Primary defenses include strict file type validation against an extension whitelist and multi-stage size limit enforcement to prevent resource exhaustion. All internal file paths are rigorously sanitized to neutralize directory traversal attempts, and session integrity is maintained through cryptographically secure, non-sequential job identifiers. For production environments, the architecture is designed to support further hardening through standardized authentication protocols, IP-based rate limiting, and broad implementation of modern web security headers and encrypted communication channels.
 
 ---
 
@@ -407,308 +206,32 @@ For production deployment, additional measures are recommended:
 The system leverages a carefully selected technology stack that balances performance, accessibility, and maintainability:
 
 #### 4.1.1 Backend Technologies
-
-**Python 3.8+ with Flask Framework**
--   **Rationale**: Flask provides a lightweight, flexible framework for building RESTful APIs with minimal boilerplate. Its simplicity allows rapid development while maintaining extensibility.
--   **Key Libraries**:
-    -   `Flask-SocketIO`: WebSocket support for real-time bidirectional communication
-    -   `Werkzeug`: WSGI utilities for secure file handling
-    -   `Threading`: Built-in concurrency for background job processing
-
-**Swift 5.5+ with RealityKit**
--   **Rationale**: Swift is the only language with direct access to Apple's hardware-accelerated photogrammetry APIs. RealityKit provides state-of-the-art reconstruction quality optimized for Apple Silicon.
--   **Key Frameworks**:
-    -   `RealityKit`: Core photogrammetry engine
-    -   `Foundation`: File system and process management
-    -   `Metal`: GPU acceleration framework
-
-**Blender 3.0+ (Python API)**
--   **Rationale**: Blender's Python API enables automated format conversion and advanced mesh processing without manual intervention.
--   **Usage**: USDZ to GLB/OBJ conversion, mesh decimation, UV optimization
+The backend infrastructure is built around Python 3.8 and the Flask framework, which was selected for its lightweight flexibility in developing RESTful APIs. It utilizes the Flask-SocketIO library to enable real-time bidirectional communication, while the Werkzeug and Threading modules manage secure file handling and background job concurrency. This ecosystem is integrated with Swift 5.5 and RealityKit, providing the only direct access to Apple's hardware-accelerated photogrammetry and Metal-based GPU frameworks. To handle post-processing, the system invokes the Blender Python API, which automates complex tasks such as mesh decimation, UV optimization, and format conversion between USDZ, GLB, and OBJ.
 
 #### 4.1.2 Frontend Technologies
-
-**HTML5 + CSS3 + Vanilla JavaScript**
--   **Rationale**: Avoiding heavy frameworks ensures fast load times and broad compatibility. Modern JavaScript features (Fetch API, async/await) provide sufficient functionality.
--   **Key Features**:
-    -   Drag-and-drop file upload with `FileReader` API
-    -   WebSocket client with `Socket.IO` library
-    -   Responsive CSS Grid and Flexbox layouts
-    -   Progressive enhancement for older browsers
+The frontend is developed using native HTML5, CSS3, and Vanilla JavaScript to ensure maximum compatibility and performance without the overhead of heavy frameworks. It implements a drag-and-drop upload system using the FileReader API and maintains a live connection through the Socket.IO client library. The interface utilizes modern CSS Grid and Flexbox for responsiveness, while the implementation of async/await features in JavaScript ensures a smooth, non-blocking user experience across diverse browser environments.
 
 #### 4.1.3 System Dependencies
-
-**USD Tools (Universal Scene Description)**
--   `usdzip`: Package USDZ archives
--   `usdcat`: Convert between USD formats
--   **Installation**: Included with Xcode Command Line Tools on macOS
-
-**SIPS (Scriptable Image Processing System)**
--   Native macOS tool for image format conversion and resizing
--   **Usage**: JPEG compression, resolution adjustment, format standardization
+Critical system dependencies include the USD (Universal Scene Description) tools for packaging archives and converting between internal USD formats. Additionally, the Scriptable Image Processing System (SIPS) is utilized as a native macOS utility for standardizing image resolutions and applying JPEG compression, ensuring that all input assets are optimized for the reconstruction engine.
 
 ### 4.2 Core Algorithms and Techniques
 
-#### 4.2.1 Intelligent Image Selection Algorithm
+#### 4.2.1 Intelligent Image Selection Logic
+The system implements a sophisticated selection logic to optimize reconstruction quality while managing computational resources. The algorithm begins by performing a preliminary scan of the input assets to filter images based on minimum quality criteria, such as resolution thresholds and file integrity. To ensure comprehensive coverage without overwhelming the processing engine, the system applies a distribution algorithm that selects a high-quality subset from the available pool. It prioritizes images with the highest clarity and ensures that viewpoints are evenly distributed across the capture timeline, balancing geometric completeness with processing efficiency.
 
-The system implements a sophisticated image selection algorithm to optimize reconstruction quality while managing computational resources:
+#### 4.2.2 Adaptive Optimization Techniques
+The optimization pipeline employs adaptive techniques to ensure that assets meet stringent file size requirements without compromising visual fidelity. For each target variant, the system performs iterative adjustments to texture resolution and compression levels. It begins by resizing high-resolution source textures to a baseline target and then applies intelligent compression. If the resulting file size exceeds the target threshold, the system recursively refines the parameters—downscaling dimensions and increasing compression—until the asset complies with the desired size constraints while maintaining the highest possible quality.
 
-```python
-def select_optimal_images(image_list, target_count=45):
-    """
-    Select optimal subset of images for photogrammetry
-    
-    Criteria:
-    1. Resolution: Prefer higher resolution images
-    2. Distribution: Even temporal/spatial distribution
-    3. Quality: Filter out blurry or poorly exposed images
-    """
-    
-    # Filter by minimum quality criteria
-    filtered = []
-    for img in image_list:
-        resolution = get_image_resolution(img)
-        file_size = get_file_size(img)
-        
-        if (max(resolution) >= 1000 and  # Minimum 1000px
-            50_000 <= file_size <= 5_000_000):  # 50KB - 5MB
-            filtered.append(img)
-    
-    # If filtering removes too many, relax constraints
-    if len(filtered) < target_count * 0.5:
-        filtered = image_list
-    
-    # Distribute selection evenly
-    count = min(target_count, len(filtered))
-    step = max(1, len(filtered) // count)
-    
-    selected = []
-    for i in range(0, len(filtered), step):
-        if len(selected) < count:
-            selected.append(filtered[i])
-    
-    return selected
-```
+#### 4.2.3 Status Monitoring and Feedback
+A dedicated monitoring system parses the raw output stream from the reconstruction engine to facilitate real-time user feedback. By identifying specific stage milestones and progress indicators within the execution logs, the system translates low-level engine status into human-readable progress updates. This monitoring logic is capable of detecting completion markers, identifying intermittent hardware errors, and providing estimated completion timelines, which are then broadcast to the client interface through the orchestration layer.
 
-This algorithm balances quality and quantity, ensuring sufficient image coverage while avoiding redundancy.
-
-#### 4.2.2 Adaptive Texture Optimization
-
-The texture optimization pipeline dynamically adjusts compression parameters based on target file size constraints:
-
-```swift
-func optimizeTexture(
-    input: URL,
-    targetResolution: Int,
-    jpegQuality: Int
-) -> URL {
-    // Resize to target resolution while maintaining aspect ratio
-    let resizeCmd = """
-        sips -Z \(targetResolution) \
-             -s format jpeg \
-             -s formatOptions \(jpegQuality) \
-             \(input.path) \
-             --out \(output.path)
-        """
-    
-    shell.execute(resizeCmd)
-    
-    // Verify output meets size constraints
-    let actualSize = getFileSize(output)
-    
-    // If too large, reduce quality iteratively
-    if actualSize > targetSize {
-        return optimizeTexture(
-            input: input,
-            targetResolution: targetResolution * 0.9,
-            jpegQuality: jpegQuality - 5
-        )
-    }
-    
-    return output
-}
-```
-
-This recursive approach ensures that generated variants meet file size targets while maximizing visual quality.
-
-#### 4.2.3 Progress Tracking and Parsing
-
-The system parses real-time output from the Swift photogrammetry engine to provide accurate progress updates:
-
-```python
-def monitor_photogrammetry_output(process, job_id):
-    """
-    Parse Swift script output and update job status
-    """
-    for line in iter(process.stdout.readline, b''):
-        text = line.decode('utf-8').strip()
-        
-        # Parse progress percentage
-        if 'Progress:' in text:
-            match = re.search(r'(\d+)%', text)
-            if match:
-                progress = int(match.group(1))
-                update_job_status(job_id, progress=progress)
-        
-        # Parse stage information
-        elif 'STAGE:' in text:
-            stage = text.split('STAGE:')[1].strip()
-            update_job_status(job_id, message=stage)
-        
-        # Detect completion
-        elif 'SUCCESS:' in text or 'Complete' in text:
-            update_job_status(job_id, status='complete', progress=100)
-        
-        # Detect errors
-        elif 'ERROR:' in text or 'Failed' in text:
-            update_job_status(job_id, status='failed', error=text)
-```
-
-This parsing logic translates low-level processing events into user-friendly status updates.
-
-### 4.3 File System Organization
-
-The system maintains a well-organized directory structure:
-
-```
-project_root/
-├── app.py                          # Main Flask application
-├── photogrammetry_script.swift    # Swift reconstruction engine
-├── requirements.txt                # Python dependencies
-├── config.py                       # Configuration settings
-│
-├── templates/                      # HTML templates
-│   ├── index.html                 # Upload interface
-│   └── status.html                # Progress tracking page
-│
-├── static/                         # Static assets
-│   ├── css/
-│   │   └── style.css
-│   └── js/
-│       └── app.js
-│
-├── uploads/                        # User uploads (temporary)
-│   └── {JOB_ID}/
-│       ├── image001.jpg
-│       ├── image002.jpg
-│       └── ...
-│
-├── processing/                     # Intermediate files (temporary)
-│   └── {JOB_ID}/
-│       └── ...
-│
-└── output/                         # Generated models (persistent)
-    └── {JOB_ID}/
-        ├── model_Base.usdz        # High-fidelity base (50-350MB)
-        ├── model_2MB.usdz         # Mobile AR optimized
-        ├── model_2.5MB.usdz       # Web viewing
-        ├── model_3MB.usdz         # Enhanced web
-        ├── model_3.5MB.usdz       # High quality web
-        ├── model_5MB_HQ.usdz      # Desktop AR
-        ├── model_7MB_UHQ.usdz     # Professional viewing
-        ├── model_10MB_MAX.usdz    # Maximum quality
-        ├── model.glb              # Cross-platform (glTF)
-        └── model.obj              # Universal 3D format
-```
-
-This organization facilitates:
--   Easy cleanup of temporary files
--   Efficient job management
--   Clear separation of concerns
--   Straightforward backup and archival
-
-### 4.4 Configuration Management
-
-The system uses a centralized configuration file for easy customization:
-
-```python
-# config.py
-
-# Server Configuration
-SERVER_HOST = '0.0.0.0'  # Listen on all interfaces
-SERVER_PORT = 5001
-DEBUG_MODE = False
-SECRET_KEY = 'change-this-in-production'
-
-# Upload Constraints
-MAX_UPLOAD_SIZE = 500 * 1024 * 1024  # 500MB
-ALLOWED_IMAGE_EXTENSIONS = {'jpg', 'jpeg', 'png', 'heic', 'tif', 'tiff'}
-ALLOWED_VIDEO_EXTENSIONS = {'mov', 'mp4', 'avi', 'm4v'}
-
-# Processing Parameters
-RECONSTRUCTION_DETAIL = 'full'  # preview, reduced, medium, full, raw
-TARGET_IMAGE_COUNT = 45
-DOWNSCALE_LONG_SIDE = 4096
-TEXTURE_QUALITY_JPEG = 95
-MIN_LONG_SIDE_PIXELS = 1000
-
-# Optimization Variants
-OPTIMIZATION_VARIANTS = [
-    ('2MB', 2.0, 896, 70),
-    ('2.5MB', 2.5, 1024, 75),
-    ('3MB', 3.0, 1152, 78),
-    ('3.5MB', 3.5, 1280, 82),
-    ('5MB_HQ', 5.0, 2048, 90),
-    ('7MB_UHQ', 7.0, 2560, 92),
-    ('10MB_MAX', 10.0, 4096, 95),
-]
-
-# Resource Management
-AUTO_CLEANUP_DAYS = 7
-MIN_FREE_DISK_SPACE_GB = 10
-ENABLE_VIDEO_PROCESSING = True
-ENABLE_GLB_CONVERSION = True
-```
-
-This approach allows administrators to tune system behavior without modifying code.
+### 4.4 Configuration and Resource Management
+The system utilizes a centralized configuration management approach that allows administrators to tune performance without modifying the core codebase. This includes defining server-level parameters, upload constraints, and specific quality targets for model variants. To ensure system longevity, an automated resource management layer performs periodic cleanup of temporary workspaces and monitors available disk space, ensuring that high-throughput institutional use does not compromise server stability.
 
 ### 4.5 Error Handling and Resilience
+The system implements a multi-tiered resilience strategy to handle potential failures during the reconstruction process. At the entry point, rigorous input validation ensures that only compatible assets meeting minimum count and size requirements are accepted. During the computationally intensive reconstruction phase, the system employs isolated error recovery logic that captures specific engine exceptions, allowing it to provide descriptive feedback to the user and perform graceful cleanup of failed tasks. Even in scenarios where secondary processes like format conversion might fail, the system is designed to deliver all successfully generated primary assets, ensuring maximum utility for the user.
 
-The system implements comprehensive error handling at multiple levels:
-
-**Input Validation**:
-```python
-def validate_upload(files):
-    if not files:
-        raise ValidationError("No files provided")
-    
-    if len(files) &lt; 10:
-        raise ValidationError("Minimum 10 images required")
-    
-    total_size = sum(f.size for f in files)
-    if total_size > MAX_UPLOAD_SIZE:
-        raise ValidationError("Total upload exceeds 500MB")
-    
-    for file in files:
-        if not allowed_file(file.filename):
-            raise ValidationError(f"Invalid file type: {file.filename}")
-```
-
-**Processing Error Recovery**:
-```python
-def process_job(job_id):
-    try:
-        # Main processing logic
-        result = run_photogrammetry(job_id)
-        update_job_status(job_id, status='complete')
-        
-    except PhotogrammetryError as e:
-        logger.error(f"Reconstruction failed: {e}")
-        update_job_status(job_id, status='failed', error=str(e))
-        
-    except Exception as e:
-        logger.exception(f"Unexpected error: {e}")
-        update_job_status(job_id, status='failed', error="Internal error")
-        
-    finally:
-        # Cleanup temporary files regardless of outcome
-        cleanup_temp_files(job_id)
-```
-
-**Graceful Degradation**:
--   If GLB conversion fails, the system still provides USDZ outputs
--   If optimization fails for specific variants, successfully generated variants are still delivered
--   If WebSocket connection fails, the client falls back to HTTP polling
+The system architecture supports graceful degradation to ensure user utility even when specific sub-processes encounter issues. If primary format conversions like GLB fail, the system still delivers the original USDZ outputs, and successfully generated quality variants are provided even if others in the batch fail. Furthermore, the client interface is designed to fall back to standard HTTP polling if the more efficient WebSocket connection is unavailable, maintaining a continuous feedback loop regardless of network constraints.
 
 ---
 
@@ -718,27 +241,11 @@ def process_job(job_id):
 
 #### 5.1.1 Hardware Configuration
 
-All experiments were conducted on the following hardware:
--   **System**: Apple MacBook Pro (2021)
--   **Processor**: Apple M1 Pro (10-core CPU, 16-core GPU, 16-core Neural Engine)
--   **Memory**: 32GB unified memory
--   **Storage**: 1TB NVMe SSD
--   **Operating System**: macOS Sonoma 14.2
+All experimental evaluations were conducted on a 2021 Apple MacBook Pro equipped with an M1 Pro processor featuring a 10-core CPU, a 16-core GPU, and a 16-core Neural Engine. The system was configured with 32GB of unified memory and 1TB of NVMe SSD storage, running on macOS Sonoma 14.2 to ensure compatibility with the required RealityKit frameworks.
 
 #### 5.1.2 Test Dataset
 
-We evaluated the system using a diverse dataset of objects across four complexity categories:
-
-1.  **Simple Geometry** (n=15): Boxes, vases, simple containers
-2.  **Organic Structures** (n=20): Shoes, fruits, plants, biological specimens
-3.  **Complex Topology** (n=12): Anatomical models, mechanical parts, sculptures
-4.  **High Surface Detail** (n=18): Rocks, artifacts, textured objects
-
-For each object, we captured images using:
--   **Camera**: iPhone 14 Pro (48MP main camera)
--   **Lighting**: Controlled indoor lighting with diffuse illumination
--   **Capture Protocol**: 360° coverage with 70% image overlap
--   **Image Count**: 20-120 images per object depending on complexity
+We evaluated the system using a diverse dataset consisting of 65 distinct subjects categorized by their geometric and visual complexity. This included simple geometric forms like boxes and vases, organic structures such as footwear and biological specimens, and more intricate subjects like anatomical models and textured artifacts. Each object was captured using an iPhone 14 Pro's 48MP main camera under controlled, diffuse lighting conditions. Our capture protocol ensured 360-degree coverage with a 70% image overlap, resulting in image counts ranging from 20 to 120 per subject to balance detail with processing efficiency.
 
 ### 5.2 Reconstruction Accuracy and Quality
 
@@ -755,11 +262,7 @@ For each object, we captured images using:
 
 *Note: Processing times based on M1 Pro Apple Silicon. Feature match rate indicates percentage of detected features successfully matched across images. Geometric completeness measures surface coverage. Deviation estimated through comparison with ground truth measurements.*
 
-**Key Findings**:
--   Feature match rates consistently exceed 92%, indicating robust feature detection and matching
--   Geometric completeness above 95% for all categories demonstrates comprehensive surface reconstruction
--   Estimated deviation under 2.2mm for all categories shows high geometric accuracy
--   Processing time scales roughly linearly with image count up to 100 images
+The quantitative analysis reveals several critical performance benchmarks for the reconstruction engine. Feature match rates consistently exceed 92%, indicating robust landmark detection even in complex scenarios, while geometric completeness remains above 95% across all categories, ensuring comprehensive surface coverage. The system achieves high geometric accuracy with an estimated deviation of less than 2.2mm for all subjects, and the processing timeline demonstrates a roughly linear scale relative to the input image count up to 100 assets.
 
 #### 5.2.2 Optimization Efficiency vs. Visual Fidelity
 
@@ -778,11 +281,7 @@ For each object, we captured images using:
 
 *SSIM (Structural Similarity Index Measure) used as a proxy for perceived visual difference. Values closer to 1.0 indicate higher similarity to the original.*
 
-**Key Findings**:
--   The "sweet spot" at 3-5MB provides excellent balance: 70-117× reduction while retaining 89-92% structural similarity
--   Even the most aggressive 2MB variant maintains 85% SSIM, suitable for mobile AR applications
--   Diminishing returns beyond 10MB: only 4% SSIM improvement for 35× larger file size
--   Automated optimization successfully targets file sizes within ±0.5MB of goals
+The optimization efficiency results highlight a definitive "sweet spot" at the 3-5MB range, where the system achieves a 70-117× reduction in file size while retaining a high structural similarity of 89-92%. Even the most aggressive 2MB variant preserves sufficient visual integrity for mobile AR applications, maintaining an 85% SSIM. Our data indicates diminishing returns beyond the 10MB threshold, as the incremental fidelity improvements do not justify the significantly larger data footprint. Furthermore, the automated optimization pipeline successfully met its target file sizes within a minimal margin of error.
 
 ### 5.3 Performance and Scalability
 
@@ -815,11 +314,7 @@ For each object, we captured images using:
 | Optimization & Export | 90% | 20% | 6.5 | 13% |
 | Idle | 2% | 0% | 0.2 | N/A |
 
-**Key Findings**:
--   The pipeline effectively offloads the heaviest task (dense cloud generation) to the GPU, keeping the CPU relatively free for handling concurrent web requests
--   Peak memory usage of 12GB during meshing is well within the 32GB available, leaving headroom for system operations
--   GPU utilization reaches 95% during reconstruction, indicating excellent hardware acceleration
--   The system returns to idle state efficiently, releasing resources for the next job
+The resource utilization profile confirms the system's ability to efficiently distribute computational load between the CPU and GPU. By offloading the dense cloud generation—the most intensive stage—to the GPU, the system maintains 95% utilization in that layer while keeping the CPU available for concurrent orchestration tasks. Peak memory consumption remained well within the hardware's 32GB threshold, even during the memory-intensive meshing phase, and the system demonstrated an efficient return to its idle state upon job completion, ensuring resource readiness for subsequent tasks.
 
 #### 5.3.3 Concurrent Request Handling
 
@@ -827,12 +322,7 @@ We tested the system's ability to handle multiple simultaneous upload requests:
 
 **Test Scenario**: 10 users simultaneously upload image sets (40-60 images each)
 
-**Results**:
--   All uploads accepted successfully within 5 seconds
--   Jobs queued in order of arrival (FIFO)
--   Average wait time in queue: 12 minutes (dependent on preceding job complexity)
--   No upload failures or data corruption
--   Server remained responsive to status checks throughout
+We evaluated the system's ability to manage high demand through a test scenario involving ten users simultaneously uploading image sets of 40 to 60 images each. The results demonstrated that all uploads were accepted within five seconds and queued correctly according to a first-in-first-order (FIFO) policy. While the average wait time in the queue was approximately 12 minutes—varying slightly based on job complexity—the server maintained full responsiveness to status checks throughout the test, with no instances of data corruption or upload failure.
 
 **Conclusion**: The queue-based architecture successfully serializes processing while maintaining responsive upload and status checking capabilities. For higher throughput, the system could be extended with multiple worker nodes.
 
@@ -856,141 +346,34 @@ We conducted a user study with 25 participants (mix of 3D artists, educators, an
 | 2.5MB Web | 6.5 | 1.6 | Fast web loading |
 | 2MB Mobile AR | 5.8 | 1.8 | Mobile AR, bandwidth-constrained |
 
-**Key Findings**:
--   Variants 5MB and above rated consistently high (8.5+), suitable for professional use
--   3-3.5MB variants provide good balance for educational applications (7.2-7.8 rating)
--   Even the 2MB mobile variant received acceptable ratings (5.8), confirming suitability for AR applications where file size is critical
+Variants rated at 5MB and above consistently achieved high scores of 8.5 or greater, marking them as suitable for professional archival and detailed examination. The intermediate 3-3.5MB variants emerged as an ideal standard for educational applications, while even the most aggressive 2MB mobile optimization received acceptable ratings, confirming its utility for bandwidth-constrained AR environments where rapid loading is prioritized over sheer visual fidelity.
 
 #### 5.4.2 Format Compatibility Testing
 
 We verified cross-platform compatibility of generated models:
 
-**USDZ Format**:
--   iOS Quick Look (native AR viewing)
--   macOS Preview and Quick Look
--   AR Quick Look on web (Safari)
--   Reality Composer
--   Blender (via USD importer)
-
-**GLB Format**:
--   Android AR (Scene Viewer)
--   Web viewers (Three.js, Babylon.js, model-viewer)
--   Sketchfab
--   Microsoft 3D Viewer
--   Blender (native support)
-
-**OBJ Format**:
--   All major 3D software (Maya, 3ds Max, Cinema 4D, Blender)
--   Game engines (Unity, Unreal Engine)
--   CAD software (AutoCAD, Rhino)
+Verification of the system's output across multiple platforms confirmed broad compatibility for all generated formats. The USDZ models performed seamlessly in native iOS and macOS environments, including Safari's web-based AR viewing and professional tools like Reality Composer. The GLB exports were successfully validated across Android's Scene Viewer and several web-based engines like Three.js and Sketchfab. Universal connectivity was further ensured through the OBJ format, which maintained structural integrity when imported into major 3D software suites like Blender, Maya, and standard game engines, demonstrating the pipeline's effectiveness as a platform-agnostic content generation tool.
 
 **Conclusion**: The multi-format export strategy ensures broad compatibility across platforms and use cases.
 
 ### 5.5 Case Studies
 
 #### 5.5.1 Educational Use Case: Biology Classroom
-
-**Figure 11: Educational Application Context**
-
-![Educational Application](/docs_images/8.png)
-*Bridging the gap between physical anatomical specimens and digital learning environments.*
-
-**Context**: A high school biology teacher wanted to create 3D models of anatomical specimens for remote learning.
-
-**Process**:
--   Captured 45 images of a human skull model using an iPhone
--   Uploaded via web interface during lunch break
--   Received notification 15 minutes later
--   Downloaded 3.5MB variant for embedding in learning management system
-
-**Outcome**:
--   Students could examine the skull in AR on their phones
--   Teacher reported increased engagement and better spatial understanding
--   Model reused across multiple lessons and grade levels
--   Total cost: $0 (vs. $500+ for commercial 3D scans)
-
-**Quote**: *"This democratizes access to 3D content. I don't need to be a 3D artist or have expensive equipment. I just take photos and get professional results."*
+The system's utility was demonstrated in a biology classroom context where an educator sought to generate high-fidelity 3D anatomical models for remote instruction. By capturing a human skull specimen using a standard mobile device and processing it through the web interface, the educator was able to receive a fully optimized 3.5MB variant within minutes. This allowed students to examine the specimen in their own physical space through AR, fostering deeper spatial understanding and engagement without the need for specialized artist intervention or high-cost scanning equipment.
 
 #### 5.5.2 Cultural Heritage: Museum Artifact Digitization
-
-**Figure 12: Museum Digitization Workflow**
-
-![Museum Digitization](/docs_images/9.png)
-*Digitizing rare artifacts for global web-based accessibility and archival preservation.*
-
-**Context**: A small local history museum wanted to digitize fragile artifacts for virtual exhibitions.
-
-**Process**:
--   Curator photographed 80 artifacts over two weeks
--   Processed each artifact (30-60 images) through the system
--   Generated both high-quality variants (7-10MB) for virtual tours and web variants (2.5-3MB) for online catalog
-
-**Outcome**:
--   Created virtual exhibition accessible worldwide
--   Reduced physical handling of fragile items
--   Enabled detailed examination impossible with physical display (zoom, rotation)
--   Archived digital copies for preservation
-
-**Impact**: Museum reported 300% increase in online engagement and inquiries from researchers globally.
+In the cultural heritage sector, a local museum utilized the system to digitize fragile artifacts for virtual exhibitions. The curation team photographed a series of artifacts over two weeks, generating both high-fidelity archival models and lightweight web-ready versions. This digitization effort not only improved global accessibility to rare items but also reduced the need for physical handling of delicate specimens, demonstrating a scalable approach to digital preservation for institutions with limited budgets.
 
 #### 5.5.3 E-Commerce: Product Visualization
-
-**Figure 13: E-Commerce AR Preview**
-
-![E-Commerce AR](/docs_images/10.png)
-*Enabling spatial visualization of products through automated 3D model generation for retail.*
-
-**Context**: Small furniture maker wanted to offer AR preview of custom pieces.
-
-**Process**:
--   Photographed completed furniture pieces (40-50 images each)
--   Generated 2-3MB variants optimized for web AR
--   Embedded AR Quick Look links in product pages
-
-**Outcome**:
--   Customers could visualize furniture in their homes before purchase
--   Reported 40% reduction in returns due to size/appearance mismatch
--   Competitive advantage over larger retailers without 3D capabilities
--   Processing cost: ~20 minutes per product vs. $200+ for professional 3D modeling
+A furniture manufacturer successfully integrated the system to provide spatial previews for custom pieces, allowing customers to visualize products in their homes prior to purchase. By generating low-bandwidth USDZ models optimized for web AR, the manufacturer reported a significant reduction in returns and an increase in consumer confidence. This automated approach allowed for rapid content generation at a fraction of the cost associated with traditional 3D modeling services.
 
 ### 5.6 Limitations and Failure Cases
 
 #### 5.6.1 Challenging Scenarios
+Despite robust performance across many object categories, the system encounters specific challenges with certain materials and environments. Objects with high transparency or reflectivity, such as glass and polished metals, often lead to feature matching failures, though this can be mitigated through surface preparation or specialized filters. Similarly, uniformly colored or textureless objects may lack sufficient landmarks for accurate reconstruction. Larger objects that require extensive image sets can also lead to increased processing times, suggesting a need for segmented capture strategies in extreme cases.
 
-Despite strong overall performance, we identified scenarios where the system struggles:
-
-**Transparent/Reflective Objects**:
-- Glass, mirrors, polished metal surfaces cause feature matching failures
-- Mitigation: Recommend coating with matte spray (removable) or using polarizing filters
-
-**Textureless Objects**:
-- Pure white or uniformly colored objects lack distinctive features
-- Mitigation: Place temporary markers or textured background
-
-**Very Large Objects**:
-- Objects requiring &gt;200 images for coverage lead to excessive processing times (60+ minutes)
-- Mitigation: Segment into multiple scans and merge in post-processing
-
-**Extreme Lighting Conditions**:
-- Very dark environments or harsh shadows reduce reconstruction quality
-- Mitigation: Provide lighting guidelines in user interface
-
-#### 5.6.2 System Limitations
-
-**Hardware Dependency**:
-- Requires macOS 12+ with compatible hardware (Apple Silicon or recent Intel)
-- Cannot be deployed on Linux/Windows servers
-- Potential solution: Explore alternative reconstruction engines (COLMAP, Meshroom) for cross-platform deployment
-
-**Single-Threaded Processing**:
-- Current architecture processes one job at a time
-- Limits throughput for high-demand scenarios
-- Potential solution: Multi-worker architecture with job distribution
-
-**Storage Requirements**:
-- Each job requires 1-5GB temporary storage
-- Long-term storage of outputs accumulates quickly
-- Mitigation: Implemented automatic cleanup and archival policies
+#### 5.6.2 System and Hardware Boundaries
+The current implementation is primarily bounded by its hardware dependencies, requiring modern macOS environments for full acceleration. This limits deployment flexibility for Linux or Windows-based server clusters. Furthermore, the single-threaded nature of the job queue limits throughput in high-demand scenarios, though this can be addressed through multi-worker architectural scaling. The system also necessitates significant temporary storage for intermediate assets, which is managed through automated archival and cleanup policies to maintain long-term server health.
 
 **Conclusion**: These case studies demonstrate that the system successfully bridges the gap between hardware-intensive photogrammetry and end-user accessibility across diverse professional domains.
 
@@ -999,123 +382,19 @@ Despite strong overall performance, we identified scenarios where the system str
 ## 6. FUTURE RESEARCH DIRECTIONS
 
 ### 6.1 Cloud-Based Scaling
-
-**Objective**: Extend the system to cloud infrastructure for higher throughput and global accessibility.
-
-**Approach**:
-- **Containerization**: Package the system in Docker containers for deployment on cloud platforms
-- **GPU Instances**: Utilize cloud GPU instances (AWS EC2 P3, Google Cloud GPU) for reconstruction
-- **Load Balancing**: Distribute jobs across multiple worker nodes based on queue depth
-- **Auto-Scaling**: Dynamically provision resources based on demand
-
-**Challenges**:
-- RealityKit dependency on macOS requires Mac cloud instances (AWS EC2 Mac, MacStadium)
-- Cost optimization to maintain affordability
-- Data transfer overhead for large image uploads
-
-**Expected Impact**: 10-100× throughput increase, enabling institutional-scale deployment.
+Future iterations of the system seek to leverage cloud infrastructure to achieve higher throughput and broader accessibility. This involves containerizing the application for deployment on specialized cloud GPU instances, such as those provided by AWS or MacStadium, to handle the unique dependency on macOS. By implementing intelligent load balancing and auto-scaling logic, the system will be capable of distributing jobs across multiple worker nodes, significantly reducing queue times and enabling the system to support institutional-scale deployment while maintaining cost-effectiveness.
 
 ### 6.2 Real-Time Reconstruction
+To further enhance user experience, research is focused on reducing processing times to enable near-real-time feedback for interactive applications. This includes exploring progressive reconstruction techniques that generate low-quality previews within seconds while refining the high-fidelity model in the background. Additionally, the integration of emerging neural reconstruction methods, such as NeRF and Gaussian splatting, offers the potential for faster synthesis of 3D scenes, enabling new use cases in live event capture and interactive spatial visualization.
 
-**Objective**: Reduce processing time to enable near-real-time reconstruction for interactive applications.
+### 6.3 Advanced Optimization and Quality Control
+Advancements in asset optimization will focus on incorporating perceptual metrics to better assess and maintain visual fidelity during mesh simplification. The system's quality control layer aims to implement automated defect detection and capture guidance, providing users with real-time feedback during the photography phase to identify coverage gaps or lighting inconsistencies. Integration with multi-sensor data, such as LiDAR depth maps, and domain-specific optimizations for medical or manufacturing applications will further extend the system's accuracy and utility across professional disciplines.
 
-**Approach**:
-- **Progressive Reconstruction**: Generate low-quality preview within 30 seconds, refine progressively
-- **Neural Reconstruction**: Explore neural radiance fields (NeRF) and Gaussian splatting for faster reconstruction
-- **Adaptive Quality**: Automatically select reconstruction detail based on object complexity and user requirements
+### 6.4 Collaborative and Social Features
+Extending the platform to support collaborative scanning and content sharing will enable community-driven efforts, particularly in crowdsourced cultural heritage preservation. Future updates will introduce centralized user dashboards, persistent model galleries, and annotation tools for collaborative research. By providing API access for external integration, the system can serve as a foundational utility for wider ecosystems in education and digital commerce.
 
-**Challenges**:
-- Balancing speed with quality
-- Computational requirements for neural approaches
-- Integration with existing pipeline
-
-**Expected Impact**: Enable use cases like live event capture, real-time product visualization, and interactive scanning experiences.
-
-### 6.3 Advanced Optimization Techniques
-
-**Objective**: Improve optimization quality and efficiency through advanced techniques.
-
-**Approach**:
-- **Perceptual Metrics**: Replace SSIM with perceptual similarity metrics (LPIPS, DSSIM) for better quality assessment
-- **Semantic Segmentation**: Preserve detail in important regions (faces, text) while aggressively optimizing backgrounds
-- **Adaptive LOD**: Generate continuous LOD hierarchies rather than discrete variants
-- **Material Decomposition**: Separate albedo, roughness, and metallic maps for PBR rendering
-
-**Challenges**:
-- Computational overhead of advanced metrics
-- Semantic understanding requires machine learning models
-- Increased complexity in optimization pipeline
-
-**Expected Impact**: Higher visual quality at same file sizes, better adaptation to specific use cases.
-
-### 6.4 Multi-Modal Input Support
-
-**Objective**: Expand input modalities beyond static images.
-
-**Approach**:
-- **Video Processing**: Enhanced support for video input with intelligent frame extraction
-- **LiDAR Integration**: Combine photogrammetry with LiDAR depth data (iPhone Pro, iPad Pro)
-- **Multi-Sensor Fusion**: Integrate data from multiple capture devices simultaneously
-- **Drone Imagery**: Support for aerial photogrammetry with GPS/IMU data
-
-**Challenges**:
-- Synchronization across sensors
-- Data fusion algorithms
-- Handling diverse data formats
-
-**Expected Impact**: Improved reconstruction quality, support for larger objects and environments, reduced capture time.
-
-### 6.5 Intelligent Quality Control
-
-**Objective**: Automatically assess and improve reconstruction quality.
-
-**Approach**:
-- **Automated Quality Assessment**: ML models to predict reconstruction quality from input images
-- **Capture Guidance**: Real-time feedback during image capture (coverage gaps, lighting issues)
-- **Automatic Retopology**: Optimize mesh topology for animation and deformation
-- **Defect Detection**: Identify and flag reconstruction artifacts (holes, noise, distortion)
-
-**Challenges**:
-- Training data for quality assessment models
-- Real-time processing requirements for capture guidance
-- Defining quality metrics across diverse object types
-
-**Expected Impact**: Higher success rate, reduced need for re-scanning, better output quality.
-
-### 6.6 Collaborative and Social Features
-
-**Objective**: Enable collaboration and sharing within the platform.
-
-**Approach**:
-- **User Accounts**: Authentication and personalized dashboards
-- **Model Gallery**: Public/private galleries for sharing reconstructions
-- **Collaborative Scanning**: Multiple users contribute images to a single reconstruction
-- **Annotation Tools**: Add labels, measurements, and notes to 3D models
-- **API Access**: RESTful API for integration with external applications
-
-**Challenges**:
-- Privacy and security considerations
-- Storage scaling for user-generated content
-- Moderation of public content
-
-**Expected Impact**: Build community, enable new use cases (crowdsourced cultural heritage, collaborative research), increase user engagement.
-
-### 6.7 Domain-Specific Optimizations
-
-**Objective**: Tailor the system for specific application domains.
-
-**Approach**:
-- **Medical Imaging**: Integration with DICOM data, anatomical accuracy validation
-- **Archaeology**: Support for photogrammetric surveying, GIS integration
-- **Manufacturing**: Dimensional accuracy verification, CAD export
-- **Entertainment**: Animation-ready topology, rigging support
-
-**Challenges**:
-- Domain expertise required for validation
-- Specialized output formats and requirements
-- Regulatory compliance (e.g., medical applications)
-
-**Expected Impact**: Expand addressable market, provide specialized value for professional users.
+### 6.5 Domain-Specific Optimizations
+Tailoring the system for specialized fields like medical imaging and manufacturing will focus on validating anatomical accuracy and providing CAD-compatible exports. This includes ensuring regulatory compliance for healthcare applications and implementing high-precision dimensional verification for industrial scanning, effectively bridging the gap between general-purpose photogrammetry and professional domain requirements.
 
 
 ---
@@ -1125,58 +404,16 @@ Despite strong overall performance, we identified scenarios where the system str
 ## 7. CONCLUSION
 
 ### 7.1 Summary of Contributions
-
-This research presents a comprehensive web-based photogrammetry system that successfully democratizes access to professional-grade 3D reconstruction capabilities. The key contributions of this work include:
-
-1. **Accessible Architecture**: A producer-consumer web architecture that decouples computationally intensive 3D reconstruction from user interaction, enabling access from any device without specialized hardware or software installation.
-
-2. **Automated Pipeline**: An end-to-end automated workflow from image upload through reconstruction, optimization, and multi-format export, eliminating the need for manual intervention or technical expertise.
-
-3. **Intelligent Optimization**: An adaptive optimization system that generates multiple quality variants (2MB-10MB) from a single high-fidelity base model, automatically balancing file size constraints with visual fidelity (SSIM 0.85-0.96).
-
-4. **Empirical Validation**: Comprehensive evaluation demonstrating 92-98% feature match rates, geometric completeness exceeding 95%, and accuracy within 2.2mm across diverse object categories, with processing times scaling linearly with input size.
-
-5. **Real-World Impact**: Demonstrated utility across education, cultural heritage, and e-commerce through case studies showing significant cost savings, increased engagement, and new capabilities for non-technical users.
+This research successfully demonstrates that professional-grade 3D reconstruction can be achieved through an accessible, web-based architectural framework. By decoupling computationally intensive tasks from the user interface and implementing a fully automated pipeline, the system eliminates traditional hardware and expertise barriers. The introduction of intelligent optimization—capable of generating high-fidelity models at minimal file sizes—ensures that the resulting assets are immediately deployable across web, mobile, and AR platforms. The empirical evaluation and real-world case studies confirm the system's accuracy and utility, providing a scalable foundation for digital preservation and immersive education.
 
 ### 7.2 Broader Implications
-
-The democratization of 3D reconstruction technology has far-reaching implications across multiple domains:
-
-**Education**: Teachers can create custom 3D content tailored to their curriculum without budgets for professional 3D artists or expensive scanning equipment. This enables hands-on learning experiences that were previously accessible only to well-funded institutions.
-
-**Cultural Heritage**: Small museums and archaeological sites can digitize collections for preservation and global access, contributing to the democratization of cultural knowledge and protection of human heritage.
-
-**Scientific Research**: Researchers in fields from biology to geology can document specimens in 3D, enabling detailed analysis, collaboration, and archival that surpasses traditional photography.
-
-**Commerce**: Small businesses can compete with larger retailers by offering AR product visualization, reducing returns and increasing customer confidence.
-
-**Accessibility**: 3D models enable new forms of accessibility for visually impaired individuals through tactile 3D printing and haptic interfaces.
+The democratization of 3D reconstruction technology has far-reaching implications across multiple domains. In education, it allows teachers to create custom 3D content tailored to their curriculum without the need for professional artists or expensive equipment. Cultural heritage institutions can digitize collections for global access and preservation, while scientific researchers can document specimens with high geometric accuracy. In commerce, small businesses can offer immersive AR product visualizations to increase consumer confidence, and the availability of 3D models further enhances accessibility for visually impaired individuals through tactile printing and specialized haptic interfaces.
 
 ### 7.3 Lessons Learned
+Several key insights emerged from this research, primarily that simplicity in the user interface is the most significant driver for adoption. Automating the entire pipeline is essential, as manual optimization remains a primary barrier for non-technical users. We found that providing multiple quality variants is critical to meeting diverse use cases, and that transparent real-time feedback is necessary to build user trust in long-running processes. Furthermore, leveraging high-performance hardware acceleration proved critical for making web-based deployment both practical and efficient.
 
-Several key insights emerged from this research:
-
-**Simplicity Drives Adoption**: The most impactful feature is not the technical sophistication of the reconstruction algorithm, but the simplicity of the user interface. Reducing the workflow to "upload images, download model" removes barriers that prevent adoption.
-
-**Automation is Essential**: Manual optimization and format conversion represent the largest barriers for non-technical users. Automating these steps transforms photogrammetry from a specialist tool to a general-purpose utility.
-
-**Multiple Variants Matter**: Different use cases require different quality/size tradeoffs. Providing multiple variants automatically ensures users have appropriate options without understanding technical details.
-
-**Real-Time Feedback Builds Trust**: Transparent progress updates transform an opaque "black box" process into an understandable workflow, increasing user confidence and reducing abandonment.
-
-**Hardware Acceleration is Critical**: The performance difference between CPU-based and GPU-accelerated reconstruction (10-50× speedup) makes the difference between practical and impractical for web-based deployment.
-
-### 7.4 Limitations and Future Work
-
-While this system successfully addresses many barriers to photogrammetry adoption, several limitations remain:
-
-**Platform Dependency**: Reliance on macOS and RealityKit limits deployment flexibility. Future work should explore cross-platform reconstruction engines or cloud-based Mac instances.
-
-**Throughput Constraints**: Single-threaded processing limits scalability. Multi-worker architectures and cloud deployment could address this limitation.
-
-**Object Constraints**: Transparent, reflective, and textureless objects remain challenging. Advanced techniques like polarization imaging or structured light could expand the range of scannable objects.
-
-**Quality Validation**: Automated quality assessment would help users understand when re-scanning is necessary and provide guidance for improvement.
+### 7.4 Limitations and Future Research
+While this system addresses many barriers, certain limitations persist, such as the current dependency on macOS for high-fidelity reconstruction. Single-threaded processing also limits overall throughput, and objects with complex optical properties like transparency or reflectivity remain challenging for standard photogrammetry. Future research should also focus on automated quality validation to provide users with more direct guidance on when re-scanning may be necessary to achieve optimal results.
 
 ### 7.5 Final Remarks
 
@@ -1187,6 +424,28 @@ The system presented here represents not just a technical achievement, but a ste
 We envision a future where any teacher can digitize specimens for their classroom, any museum can preserve its collection, any researcher can document findings in 3D, and any small business can offer AR product visualization. This research provides a foundation for that future, demonstrating that the barriers are not insurmountable, but rather challenges to be addressed through thoughtful system design and automation.
 
 The code, documentation, and evaluation data for this system are available for the research community, and we encourage further exploration, extension, and deployment of accessible 3D reconstruction technologies.
+
+---
+
+## REFERENCES
+
+Apple Inc. (2021). "Creating 3D Objects from Photographs with RealityKit Object Capture". Apple Developer Documentation.
+[https://developer.apple.com/documentation/realitykit/creating-3d-objects-from-photographs](https://developer.apple.com/documentation/realitykit/creating-3d-objects-from-photographs)
+
+Schönberger, J. L., & Frahm, J. M. (2016). "Structure-from-motion revisited". *Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR)*, 4104-4113.
+[https://demuc.de/papers/schoenberger2016cvpr.pdf](https://demuc.de/papers/schoenberger2016cvpr.pdf)
+
+Kazhdan, M., & Hoppe, H. (2013). "Screened poisson surface reconstruction". *ACM Transactions on Graphics (ToG)*, 32(3), 1-13.
+[https://hhoppe.com/poissonrecon.pdf](https://hhoppe.com/poissonrecon.pdf)
+
+Agisoft Metashape. "Photogrammetric processing of digital images and 3D spatial data generation".
+[https://www.agisoft.com/](https://www.agisoft.com/)
+
+Google. "Model Viewer: Easily display interactive 3D models on the web".
+[https://modelviewer.dev/](https://modelviewer.dev/)
+
+Pixar. "Universal Scene Description (USD)".
+[https://graphics.pixar.com/usd/release/index.html](https://graphics.pixar.com/usd/release/index.html)
 
 ---
 
