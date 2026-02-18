@@ -477,21 +477,79 @@ h4 *,
    ==================================================================== */
 
 @media print {
+
+  /* Hide all UI elements */
+  [data-docs-sidebar],
+  [data-toc],
+  nav,
+  header,
+  footer,
+  aside,
+  .fd-button,
+  .fd-search-button,
+  [data-search="true"],
+  button {
+    display: none !important;
+  }
+
+  /* Reset layout for full page width */
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+    display: block !important;
+  }
+
+  article {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
   .prose {
-    max-width: 100%;
-    padding: 0;
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
     font-size: 11pt;
+    line-height: 1.5;
   }
 
-  .prose h2 {
+  /* Ensure colors are preserved */
+  h1,
+  h2,
+  h3,
+  h4,
+  h1 *,
+  h2 *,
+  h3 *,
+  h4 *,
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4 {
+    color: #800000 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .prose a {
+    color: #800000 !important;
+    text-decoration: none !important;
+  }
+
+  /* Avoid breaking figures and tables */
+  figure,
+  table,
+  pre {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  h1,
+  h2,
+  h3 {
     page-break-after: avoid;
-  }
-
-  .prose pre {
-    page-break-inside: avoid;
-  }
-
-  .prose table {
-    page-break-inside: avoid;
+    break-after: avoid;
   }
 }
