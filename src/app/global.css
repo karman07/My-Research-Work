@@ -440,36 +440,88 @@ h4 *,
 
 @media (max-width: 1024px) {
   .prose {
-    padding: 1.5rem 1.25rem !important;
-    font-size: 0.9rem;
+    padding: 2rem 2rem !important;
+    font-size: 0.95rem;
   }
 
   .prose h1 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
   }
 
   .prose h2 {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
   }
 
   .prose h3 {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
   }
 }
 
 @media (max-width: 768px) {
   .prose {
-    padding: 1.25rem 1rem !important;
+    padding: 1.5rem 1.25rem !important;
+    line-height: 1.6;
   }
 
   .prose table {
-    font-size: 0.8rem;
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
   }
 
-  .prose th,
-  .prose td {
-    padding: 0.5rem 0.75rem;
+  .prose h1 {
+    font-size: 1.35rem;
   }
+
+  .prose h2 {
+    font-size: 1.15rem;
+  }
+
+  .prose h3 {
+    font-size: 1rem;
+  }
+
+  .prose p {
+    text-align: left;
+  }
+}
+
+@media (max-width: 480px) {
+  .prose {
+    padding: 1.25rem 1rem !important;
+  }
+
+  .prose h1 {
+    font-size: 1.25rem;
+  }
+
+  .prose h2 {
+    font-size: 1.1rem;
+  }
+}
+
+/* ====================================================================
+   MOBILE HEADER & TOC REFINEMENTS
+   ==================================================================== */
+
+.fd-toc-dropdown {
+  background: white !important;
+  border: 1px solid hsl(var(--border)) !important;
+  border-radius: var(--border-radius) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+  margin: 0.5rem 1rem !important;
+  width: calc(100% - 2rem) !important;
+}
+
+.dark .fd-toc-dropdown {
+  background: hsl(var(--background)) !important;
+}
+
+.fd-toc-dropdown-btn {
+  color: var(--heading-maroon) !important;
+  font-weight: 600 !important;
+  font-size: 0.85rem !important;
 }
 
 /* ====================================================================
