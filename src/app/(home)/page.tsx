@@ -18,6 +18,12 @@ export default function HomePage() {
           >
             Read Research Paper
           </Link>
+          <Link
+            href="/docs/sample"
+            className="px-8 py-3 rounded-full border border-[#800000]/30 bg-[#800000]/5 dark:bg-[#ff8a8a]/15 font-semibold transition-all hover:bg-[#800000]/10 dark:hover:bg-[#ff8a8a]/20 active:scale-95"
+          >
+            Open Sample Doc
+          </Link>
           <a
             href="https://github.com"
             target="_blank"
